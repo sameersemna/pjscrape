@@ -22,8 +22,8 @@ function fail(msg) {
   phantom.exit(1);
 }
 
-function download(uri, filename, callback){
-  filename = './data/images/' + filename;
+function download(imgFolder, uri, filename, callback){
+  filename = imgFolder + filename;
   var page = require('webpage').create();
   page.open(uri, function (status) {
     if (status === 'success') {
@@ -48,7 +48,8 @@ var pjs = (function(){
     format: 'json',
     logFile: 'pjscrape_log.txt',
     outFile: 'pjscrape_out.txt',
-    pageSettings: { }
+    pageSettings: { },
+    imgFolder: './data/images/'
   };
 
   var suites = [];
@@ -236,7 +237,7 @@ var pjs = (function(){
             fields.forEach(function(field) {
               //SHS save image
               if(field === 'image') {
-                download(item.image, item.sku + '.png', function(){
+                download(config.imgFolder, item.image, item.sku + '.png', function(){
                   console.log('Image downloaded: ');
                 });
               }
