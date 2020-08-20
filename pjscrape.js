@@ -327,6 +327,18 @@ var pjs = (function(){
           i = arrify(i);
           items = items.concat(i);
           count += i.length;
+
+          console.log('Fetched Data: ================');
+          console.log(JSON.stringify(i[0], null, 2));
+          // var fields = Object.keys(i[0]);
+          // var objVals = Object.values(i[0]);
+          var objVals = Object.keys(i[0]).map(function (key) {
+            return i[0][key];
+          });
+          objVals = '"' + objVals.join('","') + '"\n';
+          fs.write(config.outFile + '.log', objVals, 'a');
+          console.log('==============================');
+
           // write if necessary
           if (batchSize && items.length > batchSize) {
             writeBatch(items.splice(0, batchSize));
